@@ -1,0 +1,17 @@
+{
+    "database": "sample",
+    "schema_version": 1,
+    "validation": {
+        "enabled": true
+    },
+    "tables": {
+        "notes": {
+            "columns": [
+                { "name": "id", "type": "INTEGER", "not_null": false, "primary_key": true },
+                { "name": "title", "type": "TEXT", "not_null": true },
+                { "name": "content", "type": "TEXT", "not_null": true },
+                { "name": "created_at", "type": "TEXT", "not_null": true }
+            ]
+        }
+    }
+}

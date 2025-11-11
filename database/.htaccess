@@ -1,0 +1,14 @@
+# Never serve anything from /database via HTTP
+Options -Indexes
+Require all denied
+
+# Belt-and-braces: also deny typical SQLite sidecar files by extension
+<FilesMatch "\.(sqlite|sqlite3|db|db3|wal|shm|sql)$">
+  Require all denied
+</FilesMatch>
+
+# And forbid executing any PHP under /database (even if parent gets relaxed)
+<FilesMatch "\.php$">
+  Require all denied
+</FilesMatch>
+
