@@ -152,13 +152,6 @@ function render_ui_page(array $view): void
     echo '</section>';
 
     echo '</main>'
-        . '<script>'
-        . 'document.querySelectorAll("[data-toggle-target]").forEach(function(button){'
-        . 'button.addEventListener("click",function(){'
-        . 'var target=document.getElementById(button.getAttribute("data-toggle-target"));'
-        . 'if(target){target.classList.toggle("collapsed");var input=target.querySelector("input[type=text]");if(input&&!target.classList.contains("collapsed")){input.focus();}}'
-        . '});'
-        . '});'
-        . '</script>'
+        . '<script src="' . htmlspecialchars(ui_asset_path('ui/scripts/toggle.js'), ENT_QUOTES, 'UTF-8') . '"></script>'
         . '</body></html>';
 }
