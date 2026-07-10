@@ -3,6 +3,10 @@ Options -Indexes -MultiViews
 
 # Front controller: route everything to index.php unless a real file/dir exists
 RewriteEngine On
+
+# Never expose local Docker helper files from Apache document roots
+RewriteRule ^docker(/|$) - [F,L]
+
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
@@ -12,4 +16,3 @@ RewriteRule ^(api/.*|console/.*|ui/.*)?$ index.php [L,QSA]
 
 # Fallback: anything else -> index.php
 RewriteRule ^ index.php [L,QSA]
-

@@ -24,7 +24,15 @@ function render_ui_page(array $view): void
 
     echo '<main>';
     echo '<section class="panel panel-main">';
-    echo '<h2>Databases</h2>';
+    echo '<div class="section-title">'
+        . '<h2>Databases</h2>'
+        . '<button type="button" class="icon-button" data-toggle-target="create-database-form" aria-label="Create database">+</button>'
+        . '</div>';
+    echo '<form method="post" class="inline-form collapsed" id="create-database-form">'
+        . '<input type="hidden" name="action" value="create_database">'
+        . '<input type="text" name="database" placeholder="New database name" required>'
+        . '<button type="submit">Create database</button>'
+        . '</form>';
 
     if ($databases === []) {
         echo '<p class="empty">No databases found under database/.</p>';
@@ -34,9 +42,15 @@ function render_ui_page(array $view): void
         $badge = $database['exists'] ? '<span class="badge ok">sqlite</span>' : '<span class="badge ng">missing</span>';
         echo '<article style="margin-bottom:12px;">';
         $db_link = ui_asset_path('ui/db/' . rawurlencode($database['name']));
-        echo '<h3 style="margin:0 0 8px;font-size:1rem;display:flex;gap:8px;align-items:center;">'
-            . '<a href="' . htmlspecialchars($db_link, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($database['name'], ENT_QUOTES, 'UTF-8') . '</a>'
-            . $badge . '</h3>';
+        echo '<div class="item-heading">'
+            . '<h3><a href="' . htmlspecialchars($db_link, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($database['name'], ENT_QUOTES, 'UTF-8') . '</a>'
+            . $badge . '</h3>'
+            . '<form method="post" onsubmit="return confirm(\'Delete this database and all tables?\');">'
+            . '<input type="hidden" name="action" value="delete_database">'
+            . '<input type="hidden" name="database" value="' . htmlspecialchars($database['name'], ENT_QUOTES, 'UTF-8') . '">'
+            . '<button type="submit" class="danger">Delete</button>'
+            . '</form>'
+            . '</div>';
 
         if ($database['endpoints'] === []) {
             echo '<p class="empty">No endpoints in schema/.</p>';
@@ -137,5 +151,14 @@ function render_ui_page(array $view): void
     }
     echo '</section>';
 
-    echo '</main></body></html>';
+    echo '</main>'
+        . '<script>'
+        . 'document.querySelectorAll("[data-toggle-target]").forEach(function(button){'
+        . 'button.addEventListener("click",function(){'
+        . 'var target=document.getElementById(button.getAttribute("data-toggle-target"));'
+        . 'if(target){target.classList.toggle("collapsed");var input=target.querySelector("input[type=text]");if(input&&!target.classList.contains("collapsed")){input.focus();}}'
+        . '});'
+        . '});'
+        . '</script>'
+        . '</body></html>';
 }

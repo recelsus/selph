@@ -1,0 +1,24 @@
+{
+    "schema_version": 1,
+    "validation": {
+        "enabled": true
+    },
+    "tables": {
+        "test": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "not_null": false,
+                    "primary_key": true
+                },
+                {
+                    "name": "test",
+                    "type": "TEXT",
+                    "not_null": false
+                }
+            ]
+        }
+    },
+    "database": "practice"
+}

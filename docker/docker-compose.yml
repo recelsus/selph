@@ -1,0 +1,14 @@
+services:
+  selph:
+    image: php:8.4-apache
+    container_name: selph
+    ports:
+      - "8080:80"
+    volumes:
+      - ../:/var/www/html
+    command: >
+      sh -c "a2enmod rewrite
+      && mkdir -p /var/www/html/config/security /var/www/html/database
+      && chmod -R a+rwX /var/www/html/config/security /var/www/html/database
+      && umask 000
+      && apache2-foreground"
